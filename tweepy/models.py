@@ -34,6 +34,7 @@ class Model(object):
     def parse_list(cls, api, json_list):
         """Parse a list of JSON objects into a result set of model instances."""
         results = ResultSet()
+        results._json = json_list
         for obj in json_list:
             if obj:
                 results.append(cls.parse(api, obj))
@@ -108,6 +109,7 @@ class User(Model):
             item_list = json_list['users']
 
         results = ResultSet()
+        results._json = json_list
         for obj in item_list:
             results.append(cls.parse(api, obj))
         return results
@@ -217,6 +219,7 @@ class SearchResult(Model):
     @classmethod
     def parse_list(cls, api, json_list, result_set=None):
         results = ResultSet()
+        results._json = json_list
         results.max_id = json_list.get('max_id')
         results.since_id = json_list.get('since_id')
         results.refresh_url = json_list.get('refresh_url')
@@ -247,6 +250,7 @@ class List(Model):
     @classmethod
     def parse_list(cls, api, json_list, result_set=None):
         results = ResultSet()
+        results._json = json_list
         for obj in json_list['lists']:
             results.append(cls.parse(api, obj))
         return results
